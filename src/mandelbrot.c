@@ -100,11 +100,12 @@ int main(int argv, char** args)
       printf("Mandelbot set renderer.\n");
       printf("    Rendering at %d, %d.\n", width, height);
       printf("    Using %d iterations.\n", max_iteration);
+      printf("    Strip Height: %d.\n", strip_height);
       printf("Begin...\n");
     }
     
     // Debug output
-    printf("I am rank %d, I am looking after rows %d to %d", rank, strip_start, strip_start+strip_height-1);
+    printf("I am rank %d, I am looking after rows %d to %d\n", rank, strip_start, strip_start+strip_height-1);
     
     // Loop variables
     float x0, y0, x, y, xtemp;
