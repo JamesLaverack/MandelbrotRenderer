@@ -1,5 +1,46 @@
 #include "mandelbot.h"
 
+void parse_arguments(int argv, char** args, int* width, int* height, int* max_iteration)
+{
+  int have_set_width = FALSE;
+  int have_set_height = FALSE;
+  //printf("I have %d arguments.\n",argv);
+  if(argv>1)
+  {
+    // We have arguments
+    for(int i=1;i<argv-1;i++)
+    {
+      if((!strcmp(args[i],"-w"))||(!strcmp(args[i],"--width")))
+      {
+        i++;
+        *width = atoi(args[i]);
+        if(!have_set_height)
+        {
+          // Scale height to be sensible
+          *height = *width/3.5*2;
+        }
+        have_set_width = TRUE;
+      }
+      else if((!strcmp(args[i],"-h"))||(!strcmp(args[i],"--height")))
+      {
+        i++;
+        *height = atoi(args[i]);
+        if(!have_set_width)
+        {
+          // Scale width to be sensible
+          *width = *height/2*3.5;
+        }
+        have_set_height = TRUE;
+      }
+      else if((!strcmp(args[i],"-i"))||(!strcmp(args[i],"--max-iterations")))
+      {
+        i++;
+        *max_iteration = atoi(args[i]);
+      }
+    }
+  }
+}
+
 int main(int argv, char** args)
 {
     // Major variables
@@ -13,6 +54,9 @@ int main(int argv, char** args)
     width = 3500;
     height = 2000;
     max_iteration = 1000;
+    
+    // set variables from cmdLine
+    parse_arguments(argv, args, &width, &height, &max_iteration);
 
     // Allocate grid memory
     grid = calloc(width, sizeof(uint8*));
