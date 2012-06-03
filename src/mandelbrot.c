@@ -73,19 +73,19 @@ int main(int argv, char** args)
     strip_start = strip_height*rank;
 
     // Allocate grid memory
-    grid = calloc(width, sizeof(uint8*));
-    for(int i=0;i<width;i++)
+    grid = calloc(strip_height, sizeof(uint8*));
+    for(int i=0;i<strip_height;i++)
     {
-        grid[i] = (uint8*) calloc(strip_height, sizeof(uint8));
+        grid[i] = (uint8*) calloc(width, sizeof(uint8));
     }
     
     if(rank==MASTER)
     {
       // make the final array
-      gather_grid = calloc(width, sizeof(uint8*));
-      for(int i=0;i<width;i++)
+      gather_grid = calloc(height, sizeof(uint8*));
+      for(int i=0;i<height;i++)
       {
-          gather_grid[i] = (uint8*) calloc(height, sizeof(uint8));
+          gather_grid[i] = (uint8*) calloc(width, sizeof(uint8));
       }
     }
     
@@ -115,9 +115,9 @@ int main(int argv, char** args)
     gettimeofday(&tic, NULL);
     
     // Loop for all pixels in image
-    for(int j=0;j<width;j++)
+    for(int i=0;i<strip_height;i++)
     {
-      for(int i=0;i<strip_height;i++)
+      for(int j=0;j<width;j++)
       {
         x0 = (j/fwidth)*3.5 - 2.5;
         y0 = -1*(((i+strip_start)/fheight)*2 - 1);
@@ -140,11 +140,11 @@ int main(int argv, char** args)
         //printf("            get %d iterations.\n", iteration);
         if(rank % 2 == 0)
         {
-          grid[j][i] = (iteration/fmax_iteration)*255;
+          grid[i][j] = (iteration/fmax_iteration)*255;
         }
         else
         {
-          grid[j][i] = (-1*iteration/fmax_iteration)*255;
+          grid[i][j] = (-1*iteration/fmax_iteration)*255;
         }
       }
       
@@ -176,7 +176,7 @@ int main(int argv, char** args)
       {
         for(int j=0;j<width;j++)
         {
-          fprintf(file,"%d %d %d ", gather_grid[j][i], gather_grid[j][i], gather_grid[j][i]);
+          fprintf(file,"%d %d %d ", gather_grid[i][j], gather_grid[i][j], gather_grid[i][j]);
         }
         fprintf(file,"\n");
       }
