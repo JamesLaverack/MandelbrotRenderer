@@ -47,8 +47,8 @@ int main(int argv, char** args)
     int width, height, max_iteration;
     float fwidth, fheight, fmax_iteration;
     struct timeval  tic, toc; 
-    uint8 **gather_grid = NULL;
-    uint8 **grid;
+    uint8 *gather_grid = NULL;
+    uint8 *grid;
     FILE *file;
     
     // OpenMPI variables
@@ -130,7 +130,7 @@ int main(int argv, char** args)
         }
 
         //printf("            get %d iterations.\n", iteration);
-        grid[i][j] = (iteration/fmax_iteration)*255;
+        grid[i*width + j] = (iteration/fmax_iteration)*255;
       }
       
     }
@@ -161,7 +161,7 @@ int main(int argv, char** args)
       {
         for(int j=0;j<width;j++)
         {
-          fprintf(file,"%d %d %d ", gather_grid[i][j], gather_grid[i][j], gather_grid[i][j]);
+          fprintf(file,"%d %d %d ", gather_grid[i*width + j], gather_grid[i*width + j], gather_grid[i*width + j]);
         }
         fprintf(file,"\n");
       }
