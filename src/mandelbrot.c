@@ -1,4 +1,4 @@
-#include "mandelbot.h"
+#include "mandelbrot.h"
 
 void parse_arguments(int argv, char** args, int* width, int* height, int* max_iteration)
 {
