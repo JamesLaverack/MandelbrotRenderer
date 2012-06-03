@@ -138,7 +138,14 @@ int main(int argv, char** args)
         }
 
         //printf("            get %d iterations.\n", iteration);
-        grid[j][i] = (iteration/fmax_iteration)*255;
+        if(rank % 2 == 0)
+        {
+          grid[j][i] = (iteration/fmax_iteration)*255;
+        }
+        else
+        {
+          grid[j][i] = (-1*iteration/fmax_iteration)*255;
+        }
       }
       
     }
