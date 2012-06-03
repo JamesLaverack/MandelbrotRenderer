@@ -119,8 +119,8 @@ int main(int argv, char** args)
     {
       for(int i=0;i<strip_height;i++)
       {
-        x0 = ((j+strip_start)/fwidth)*3.5 - 2.5;
-        y0 = -1*((i/fheight)*2 - 1);
+        x0 = ((j)/fwidth)*3.5 - 2.5;
+        y0 = -1*((i+strip_start/fheight)*2 - 1);
 
         //printf("        test %f, %f\n", x0, y0);
         
@@ -169,7 +169,7 @@ int main(int argv, char** args)
       {
         for(int j=0;j<width;j++)
         {
-          fprintf(file,"%d %d %d ", grid[j][i], grid[j][i], grid[j][i]);
+          fprintf(file,"%d %d %d ", gather_grid[j][i], gather_grid[j][i], gather_grid[j][i]);
         }
         fprintf(file,"\n");
       }
