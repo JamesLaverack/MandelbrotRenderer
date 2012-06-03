@@ -66,7 +66,7 @@ int main(int argv, char** args)
     parse_arguments(argv, args, &width, &height, &max_iteration);
     
     // Begin OpenMPI
-    MPI_Init( &argc, &argv );
+    MPI_Init( &argv, args );
     MPI_Comm_size( MPI_COMM_WORLD, &size );
     MPI_Comm_rank( MPI_COMM_WORLD, &rank );
     strip_height = height/size;
@@ -79,7 +79,7 @@ int main(int argv, char** args)
         grid[i] = (uint8*) calloc(strip_height, sizeof(uint8));
     }
     
-    if(rank=MASTER)
+    if(rank==MASTER)
     {
       // make the final array
       gather_grid = calloc(width, sizeof(uint8*));
