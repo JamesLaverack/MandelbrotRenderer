@@ -1,2 +1,8 @@
 # Compile folder
 bin/
+
+# qsub outputs
+Mandelbrot.*
+
+# MPI outputs
+machine.file.*
