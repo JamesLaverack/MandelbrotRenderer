@@ -47,7 +47,7 @@ int main(int argv, char** args)
     int width, height, max_iteration;
     float fwidth, fheight, fmax_iteration;
     struct timeval  tic, toc; 
-    uint8 **gather_grid;
+    uint8 **gather_grid = NULL;
     uint8 **grid;
     FILE *file;
     
@@ -66,11 +66,11 @@ int main(int argv, char** args)
     parse_arguments(argv, args, &width, &height, &max_iteration);
     
     // Begin OpenMPI
-    MPI_Init( &argv, args );
+    MPI_Init( &argv, &args );
     MPI_Comm_size( MPI_COMM_WORLD, &size );
     MPI_Comm_rank( MPI_COMM_WORLD, &rank );
     strip_height = height/size;
-    strip_start = strip_start*rank;
+    strip_start = strip_height*rank;
 
     // Allocate grid memory
     grid = calloc(width, sizeof(uint8*));
