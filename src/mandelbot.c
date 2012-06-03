@@ -13,12 +13,12 @@ int main(int argv, char** args)
     max_iteration = 10000;
     
     // Grid
-    int **grid;
+    uint8 **grid;
     
-    grid = calloc(width, sizeof(int*));
+    grid = calloc(width, sizeof(uint8*));
     for(int i=0;i<width;i++)
     {
-        grid[i] = (int*) calloc(height, sizeof(int));
+        grid[i] = (uint8*) calloc(height, sizeof(uint8));
     }
     
     // Convert to floats for non-integer division later
