@@ -5,8 +5,8 @@ EXE=$(OUTPUT_FOLDER)/mandelbot
 
 FLAGS_WARNINGS=-W -Wall
 FLAGS_MODE=-std=c99
-FLAGS_PERFORMANCE=-march=core2 -ffast-math 
-FLAGS=$(FLAGS_WARNINGS) $(FLAGS_MODE)
+FLAGS_PERFORMANCE=-Ofast -ffast-math -march=core2
+FLAGS=$(FLAGS_WARNINGS) $(FLAGS_MODE) $(FLAGS_PERFORMANCE)
 
 all: main
 
