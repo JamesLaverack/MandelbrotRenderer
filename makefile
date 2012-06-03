@@ -1,7 +1,7 @@
 CC=mpicc
 SOURCE_FOLDER=src
 BUILD_FOLDER=bin
-EXE=$(BUILD_FOLDER)/mandelbot
+EXE=$(BUILD_FOLDER)/mandelbrot
 
 FLAGS_WARNINGS=-W -Wall
 FLAGS_MODE=-std=c99
