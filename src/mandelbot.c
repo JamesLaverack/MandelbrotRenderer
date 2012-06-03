@@ -8,9 +8,9 @@ int main(int argv, char** args)
     FILE *file;
     
     // Set variables
-    width = 35000;
-    height = 20000;
-    max_iteration = 10000;
+    width = 3500;
+    height = 2000;
+    max_iteration = 1000;
     
     // Grid
     uint8 **grid;
@@ -32,6 +32,10 @@ int main(int argv, char** args)
     printf("    Using %d iterations.\n", max_iteration);
     printf("Begin...\n");
     
+    // 1% is
+    int one_percent = (width*height)/100;
+    int pixels_done = 0;
+    int last_percentile = 0;
     // Loop for all pixels in image
     for(int i=0;i<height;i++)
     {
@@ -58,7 +62,15 @@ int main(int argv, char** args)
 
         //printf("            get %d iterations.\n", iteration);
         grid[j][i] = (iteration/fmax_iteration)*255;
+        // Done a pixel
+        pixels_done++;
+        if(pixels_done>=(last_percentile+1)*one_percent)
+        {
+          last_percentile++;
+          printf("    %d\n", last_percentile);
+        }
       }
+      
     }
     
     // Write out image
