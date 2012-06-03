@@ -1,7 +1,7 @@
 CC=mpicc
 SOURCE_FOLDER=src
-OUTPUT_FOLDER=bin
-EXE=$(OUTPUT_FOLDER)/mandelbot
+BUILD_FOLDER=bin
+EXE=$(BUILD_FOLDER)/mandelbot
 
 FLAGS_WARNINGS=-W -Wall
 FLAGS_MODE=-std=c99
@@ -11,10 +11,15 @@ FLAGS=$(FLAGS_WARNINGS) $(FLAGS_MODE) $(FLAGS_PERFORMANCE)
 all: main
 
 dirs:
-	mkdir $(OUTPUT_FOLDER)
+	mkdir $(BUILD_FOLDER)
+	mkdir output
 
 main:
 	$(CC) $(FLAGS) -o $(EXE) $(SOURCE_FOLDER)/*.c
 
 clean:
-	rm $(OUTPUT_FOLDER)/*
+	rm -f $(BUILD_FOLDER)/*
+	rm -f output/*
+	rm -f Mandelbrot.e*
+	rm -f Mandelbrot.o*
+	rm -f machine.file.*
