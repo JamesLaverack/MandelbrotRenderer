@@ -103,6 +103,9 @@ int main(int argv, char** args)
       printf("Begin...\n");
     }
     
+    // Debug output
+    printf("I am rank %d, I am looking after rows %d to %d", rank, strip_start, strip_start+strip_height-1);
+    
     // Loop variables
     float x0, y0, x, y, xtemp;
     int iteration;
