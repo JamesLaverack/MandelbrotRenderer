@@ -5,16 +5,16 @@ int main(int argv, char** args)
     // Major variables
     int width, height, max_iteration;
     float fwidth, fheight, fmax_iteration;
+    struct timeval  tic, toc; 
+    uint8 **grid;
     FILE *file;
     
     // Set variables
     width = 3500;
     height = 2000;
     max_iteration = 1000;
-    
-    // Grid
-    uint8 **grid;
-    
+
+    // Allocate grid memory
     grid = calloc(width, sizeof(uint8*));
     for(int i=0;i<width;i++)
     {
@@ -36,6 +36,10 @@ int main(int argv, char** args)
     int one_percent = (width*height)/100;
     int pixels_done = 0;
     int last_percentile = 0;
+    
+    // Start timing
+    gettimeofday(&tic, NULL);
+    
     // Loop for all pixels in image
     for(int j=0;j<width;j++)
     {
@@ -72,11 +76,17 @@ int main(int argv, char** args)
       }
       
     }
+    // End timing
+    gettimeofday(&toc, NULL);
+    
+    // Announce calculation finish and time
+    printf("Done.\n");
+    printf("Elapsed time:\t\t%ld (ms)\n",((toc.tv_sec*1000000+toc.tv_usec)-(tic.tv_sec*1000000+tic.tv_usec))/1000);
+    printf("Writing file.\n");
     
     // Write out image
-    printf("Done. Writing file.\n");
-    
     file = fopen("output.ppm", "w");
+    
     // Print PPM format header
     fprintf(file,"P3\n%d\n%d\n255\n", width, height);
     for(int i=0;i<height;i++)
