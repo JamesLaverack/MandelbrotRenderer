@@ -95,10 +95,13 @@ int main(int argv, char** args)
     fmax_iteration = max_iteration;
     
     // Say hello
-    printf("Mandelbot set renderer.\n");
-    printf("    Rendering at %d, %d.\n", width, height);
-    printf("    Using %d iterations.\n", max_iteration);
-    printf("Begin...\n");
+    if(rank==MASTER)
+    {
+      printf("Mandelbot set renderer.\n");
+      printf("    Rendering at %d, %d.\n", width, height);
+      printf("    Using %d iterations.\n", max_iteration);
+      printf("Begin...\n");
+    }
     
     // Loop variables
     float x0, y0, x, y, xtemp;
