@@ -37,6 +37,10 @@ int main(int argv, char** args)
     int pixels_done = 0;
     int last_percentile = 0;
     
+    // Loop variables
+    float x0, y0, x, y, xtemp;
+    int iteration;
+    
     // Start timing
     gettimeofday(&tic, NULL);
     
@@ -45,15 +49,14 @@ int main(int argv, char** args)
     {
       for(int i=0;i<height;i++)
       {
-        float x0 = (j/fwidth)*3.5 - 2.5;
-        float y0 = -1*((i/fheight)*2 - 1);
+        x0 = (j/fwidth)*3.5 - 2.5;
+        y0 = -1*((i/fheight)*2 - 1);
 
         //printf("        test %f, %f\n", x0, y0);
         
-        float x = x0;
-        float y = y0;
-        int iteration = 0;
-        float xtemp;
+        x = x0;
+        y = y0;
+        iteration = 0;
         while ( x*x + y*y < 2*2  && iteration < max_iteration )
         {
           xtemp = x*x - y*y + x0;
