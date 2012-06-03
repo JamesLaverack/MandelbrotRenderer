@@ -141,30 +141,35 @@ int main(int argv, char** args)
               gather_grid, width*strip_height, MPI_CHAR,
               MASTER, MPI_COMM_WORLD);
     
+    MPI_Finalize();
+    
     // End timing
     gettimeofday(&toc, NULL);
     
-    // Announce calculation finish and time
-    printf("Done.\n");
-    printf("Elapsed time:\t\t%ld (ms)\n",((toc.tv_sec*1000000+toc.tv_usec)-(tic.tv_sec*1000000+tic.tv_usec))/1000);
-    printf("Writing file.\n");
-    
-    // Write out image
-    file = fopen("output.ppm", "w");
-    
-    // Print PPM format header
-    fprintf(file,"P3\n%d\n%d\n255\n", width, height);
-    for(int i=0;i<height;i++)
+    if(rank==MASTER)
     {
-      for(int j=0;j<width;j++)
+      // Announce calculation finish and time
+      printf("Done.\n");
+      printf("Elapsed time:\t\t%ld (ms)\n",((toc.tv_sec*1000000+toc.tv_usec)-(tic.tv_sec*1000000+tic.tv_usec))/1000);
+      printf("Writing file.\n");
+      
+      // Write out image
+      file = fopen("output.ppm", "w");
+      
+      // Print PPM format header
+      fprintf(file,"P3\n%d\n%d\n255\n", width, height);
+      for(int i=0;i<height;i++)
       {
-        fprintf(file,"%d %d %d ", grid[j][i], grid[j][i], grid[j][i]);
+        for(int j=0;j<width;j++)
+        {
+          fprintf(file,"%d %d %d ", grid[j][i], grid[j][i], grid[j][i]);
+        }
+        fprintf(file,"\n");
       }
-      fprintf(file,"\n");
+      fclose(file);
+      // Done
+      printf("Finished.\n");
     }
-    fclose(file);
     
-    // Done
-    printf("Finished.\n");
     return EXIT_SUCSESS;
 }
