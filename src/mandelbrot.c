@@ -119,8 +119,8 @@ int main(int argv, char** args)
     {
       for(int i=0;i<strip_height;i++)
       {
-        x0 = ((j)/fwidth)*3.5 - 2.5;
-        y0 = -1*((i+strip_start/fheight)*2 - 1);
+        x0 = (j/fwidth)*3.5 - 2.5;
+        y0 = -1*(((i+strip_start)/fheight)*2 - 1);
 
         //printf("        test %f, %f\n", x0, y0);
         
