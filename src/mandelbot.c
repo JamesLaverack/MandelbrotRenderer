@@ -47,22 +47,46 @@ int main(int argv, char** args)
     int width, height, max_iteration;
     float fwidth, fheight, fmax_iteration;
     struct timeval  tic, toc; 
+    uint8 **gather_grid;
     uint8 **grid;
     FILE *file;
     
-    // Set variables
+    // OpenMPI variables
+    int rank;
+    int size;
+    int strip_height;
+    int strip_start;
+    
+    // Set variable defaults
     width = 3500;
     height = 2000;
     max_iteration = 1000;
     
-    // set variables from cmdLine
+    // Set variables from cmdLine
     parse_arguments(argv, args, &width, &height, &max_iteration);
+    
+    // Begin OpenMPI
+    MPI_Init( &argc, &argv );
+    MPI_Comm_size( MPI_COMM_WORLD, &size );
+    MPI_Comm_rank( MPI_COMM_WORLD, &rank );
+    strip_height = height/size;
+    strip_start = strip_start*rank;
 
     // Allocate grid memory
     grid = calloc(width, sizeof(uint8*));
     for(int i=0;i<width;i++)
     {
-        grid[i] = (uint8*) calloc(height, sizeof(uint8));
+        grid[i] = (uint8*) calloc(strip_height, sizeof(uint8));
+    }
+    
+    if(rank=MASTER)
+    {
+      // make the final array
+      gather_grid = calloc(width, sizeof(uint8*));
+      for(int i=0;i<width;i++)
+      {
+          gather_grid[i] = (uint8*) calloc(height, sizeof(uint8));
+      }
     }
     
     // Convert to floats for non-integer division later
@@ -76,11 +100,6 @@ int main(int argv, char** args)
     printf("    Using %d iterations.\n", max_iteration);
     printf("Begin...\n");
     
-    // 1% is
-    int one_percent = (width*height)/100;
-    int pixels_done = 0;
-    int last_percentile = 0;
-    
     // Loop variables
     float x0, y0, x, y, xtemp;
     int iteration;
@@ -91,9 +110,9 @@ int main(int argv, char** args)
     // Loop for all pixels in image
     for(int j=0;j<width;j++)
     {
-      for(int i=0;i<height;i++)
+      for(int i=0;i<strip_height;i++)
       {
-        x0 = (j/fwidth)*3.5 - 2.5;
+        x0 = ((j+strip_start)/fwidth)*3.5 - 2.5;
         y0 = -1*((i/fheight)*2 - 1);
 
         //printf("        test %f, %f\n", x0, y0);
@@ -113,16 +132,15 @@ int main(int argv, char** args)
 
         //printf("            get %d iterations.\n", iteration);
         grid[j][i] = (iteration/fmax_iteration)*255;
-        // Done a pixel
-        pixels_done++;
-        if(pixels_done>=(last_percentile+1)*one_percent)
-        {
-          last_percentile++;
-          printf("    %d\n", last_percentile);
-        }
       }
       
     }
+    
+    // Gather together
+    MPI_Gather(grid, width*strip_height, MPI_CHAR,
+              gather_grid, width*strip_height, MPI_CHAR,
+              MASTER, MPI_COMM_WORLD);
+    
     // End timing
     gettimeofday(&toc, NULL);
     

@@ -1,4 +1,4 @@
-CC=gcc
+CC=mpicc
 SOURCE_FOLDER=src
 OUTPUT_FOLDER=bin
 EXE=$(OUTPUT_FOLDER)/mandelbot
