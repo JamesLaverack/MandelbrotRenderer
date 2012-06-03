@@ -144,8 +144,8 @@ int main(int argv, char** args)
     }
     
     // Gather together
-    MPI_Gather(grid, width*strip_height, MPI_CHAR,
-              gather_grid, width*strip_height, MPI_CHAR,
+    MPI_Gather(grid, width*strip_height, MPI_UNSIGNED_CHAR,
+              gather_grid, width*strip_height, MPI_UNSIGNED_CHAR,
               MASTER, MPI_COMM_WORLD);
     
     MPI_Finalize();
