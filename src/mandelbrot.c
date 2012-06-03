@@ -73,20 +73,12 @@ int main(int argv, char** args)
     strip_start = strip_height*rank;
 
     // Allocate grid memory
-    grid = calloc(strip_height, sizeof(uint8*));
-    for(int i=0;i<strip_height;i++)
-    {
-        grid[i] = (uint8*) calloc(width, sizeof(uint8));
-    }
+    grid = (uint8*)malloc(width*strip_height*sizeof(uint8));
     
     if(rank==MASTER)
     {
       // make the final array
-      gather_grid = calloc(height, sizeof(uint8*));
-      for(int i=0;i<height;i++)
-      {
-          gather_grid[i] = (uint8*) calloc(width, sizeof(uint8));
-      }
+      gather_grid = (uint8*)malloc(width*height*sizeof(uint8));
     }
     
     // Convert to floats for non-integer division later
