@@ -37,9 +37,9 @@ int main(int argv, char** args)
     int pixels_done = 0;
     int last_percentile = 0;
     // Loop for all pixels in image
-    for(int i=0;i<height;i++)
+    for(int j=0;j<width;j++)
     {
-      for(int j=0;j<width;j++)
+      for(int i=0;i<height;i++)
       {
         float x0 = (j/fwidth)*3.5 - 2.5;
         float y0 = -1*((i/fheight)*2 - 1);
