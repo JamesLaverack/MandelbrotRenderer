@@ -1,3 +1,6 @@
+/* Copyright (c) 2012 James Laverack
+ * See the file license.txt for copying permission.
+ */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

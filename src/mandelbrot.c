@@ -1,3 +1,6 @@
+/* Copyright (c) 2012 James Laverack
+ * See the file license.txt for copying permission.
+ */
 #include "mandelbrot.h"
 
 void parse_arguments(int argv, char** args, int* width, int* height, int* max_iteration)
